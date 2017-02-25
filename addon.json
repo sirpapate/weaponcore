@@ -1,0 +1,10 @@
+{
+	"title" 	:	"[E2] WeaponCore",
+	"type"  	:	"tool",
+	"tags"  	:	[ "build" ],
+	"ignore"	:	[
+	        	"*.cmd",
+	        	"*.gma",
+	        	"addonid.txt"
+	]
+}
