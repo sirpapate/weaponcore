@@ -151,6 +151,12 @@ local weaponPly = nil
 local weaponOld = nil
 local weaponNext = nil
 local weaponswitchclk = 0
+
+E2Lib.registerEvent("weaponSwitch", {
+	{ "Player", "e" },
+	{ "OldWeapon", "e" },
+	{ "NewWeapon", "e" }
+})
  
 registerCallback("destruct",function(self)
 		registered_e2s_switch[self.entity] = nil
@@ -166,6 +172,8 @@ hook.Add("PlayerSwitchWeapon","Expresion2PlayerSwitchWeapon", function(ply, oldW
 		ent:Execute()
 		weaponswitchclk = 0
 	end
+
+	E2Lib.triggerEvent("weaponSwitch", {ply, oldWeapon, newWeapon})
 end)
  
 e2function void runOnWeaponSwitch(activate)
@@ -198,11 +206,36 @@ local registered_e2s_equip = {}
 local weaponEquiped = nil
 local weaponequipclk = 0
 
+E2Lib.registerEvent("weaponEquip", {
+	{ "Player", "e" },
+	{ "Weapon", "e" },
+	{ "OnSpawn", "n" }
+})
+
+E2Lib.registerEvent("weaponDrop", {
+	{ "Player", "e" },
+	{ "Weapon", "e" }
+})
+
 registerCallback("destruct",function(self)
-		registered_e2s_equip[self.entity] = nil
+	registered_e2s_equip[self.entity] = nil
 end)
 
-hook.Add("WeaponEquip","Expresion2WeaponEquip", function(weapon)
+local lastPlayerSpawn = {}
+
+hook.Add("PlayerSpawn", "Exp2WpPlayerSpawn", function(player)
+	lastPlayerSpawn[player] = CurTime()
+end)
+
+hook.Add("PlayerInitialSpawn", "Exp2WpPlayerSpawn", function(player)
+	lastPlayerSpawn[player] = CurTime()
+end)
+
+hook.Add("PlayerDisconnected", "Exp2WpPlayerDisconnected", function(player)
+	lastPlayerSpawn[player] = nil
+end)
+
+hook.Add("WeaponEquip","Expresion2WeaponEquip", function(weapon, ply)
 	timer.Simple(0, function()
 		for ent,_ in pairs(registered_e2s_equip) do
 			weaponEquiped = weapon
@@ -211,7 +244,13 @@ hook.Add("WeaponEquip","Expresion2WeaponEquip", function(weapon)
 			ent:Execute()
 			weaponequipclk = 0
 		end
+
+		E2Lib.triggerEvent("weaponEquip", {ply, weapon, (CurTime() - (lastPlayerSpawn[ply] or 0)) < 0.1 and 1 or 0})
 	end)
+end)
+
+hook.Add('PlayerDroppedWeapon', 'Expresion2PlayerDroppedWeapon', function(ply, weapon)
+	E2Lib.triggerEvent("weaponDrop", {ply, weapon})
 end)
 
 e2function void runOnWeaponEquip(activate)
