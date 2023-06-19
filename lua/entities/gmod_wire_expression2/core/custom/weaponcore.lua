@@ -52,11 +52,20 @@ end
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 --- Give the player a weapon.
+[deprecated = "Use the plyGiveWeapon method instead"]
 e2function void entity:plyGive(string weaponid)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
 
 	this:Give(weaponid)
+end
+
+--- Give the player a weapon.
+e2function void entity:plyGiveWeapon(string weaponName)
+	if not ValidPly(this) then return self:throw("Invalid player", nil) end
+	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
+
+	this:Give(weaponName)
 end
 
 --- Gives ammo to a player.
