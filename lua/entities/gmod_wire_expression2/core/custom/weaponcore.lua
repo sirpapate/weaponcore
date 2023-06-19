@@ -1,4 +1,24 @@
-E2Lib.RegisterExtension("weaponcore", false)
+E2Lib.RegisterExtension("weaponcore", true)
+
+local sbox_E2_Dmg_Adv = CreateConVar( "sbox_E2_WeaponCore_allow_all_users", "0", FCVAR_ARCHIVE )
+
+local function isFriend(owner, player)
+	if owner == player then
+		return true
+	end
+
+    if CPPI then
+		for _, friend in pairs(player:CPPIGetFriends()) do
+			if friend == owner then
+				return true
+			end
+		end
+
+		return false
+    else
+        return E2Lib.isFriend(owner, player)
+    end
+end
 
 local function ValidPly( ply )
 	if not ply or not ply:IsValid() or not ply:IsPlayer() then
@@ -7,10 +27,17 @@ local function ValidPly( ply )
 	return true
 end
 
-local function hasAccess(ply)
-	if ply:IsAdmin() then
-		return true
+local function hasAccess(ply, target)
+	if sbox_E2_Dmg_Adv:GetInt() == 1 then
+		if isFriend(ply, target) then
+			return true
+		end
+	else
+		if ply:IsAdmin() then
+			return true
+		end
 	end
+
 	return false
 end
 
@@ -26,21 +53,21 @@ end
 
 e2function void entity:plyGive(string weaponid)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
-	if not hasAccess(self.player) then return self:throw("You do not have access", nil) end
+	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
 
 	this:Give(weaponid)
 end
 
 e2function void entity:plyGiveAmmo(string ammotype, number count)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
-	if not hasAccess(self.player) then return self:throw("You do not have access", nil) end
+	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
 
 	this:GiveAmmo(count, ammotype, false)
 end
 
 e2function void entity:plySetAmmo(string ammotype, number count)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
-	if not hasAccess(self.player) then return self:throw("You do not have access", nil) end
+	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
 
 	this:SetAmmo(count, type)
 end
@@ -48,7 +75,7 @@ end
 -----
 e2function void entity:plySelectWeapon(string weapon)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
-	if not hasAccess(self.player) then return self:throw("You do not have access", nil) end
+	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
 
 	this:SelectWeapon(weapon)
 end
@@ -56,14 +83,14 @@ end
 -----
 e2function void entity:plyDropWeapon(string weapon)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
-	if not hasAccess(self.player) then return self:throw("You do not have access", nil) end
+	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
 	
 	this:DropNamedWeapon(weapon)
 end
 
 e2function void entity:plyDropWeapon(entity weapon)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
-	if not hasAccess(self.player) then return self:throw("You do not have access", nil) end
+	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
 	
 	this:DropWeapon(weapon)
 end
@@ -71,35 +98,35 @@ end
 -----
 e2function void entity:plyStripWeapon(string weapon)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
-	if not hasAccess(self.player) then return self:throw("You do not have access", nil) end
+	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
 
 	this:StripWeapon(weapon)
 end
 
 e2function void entity:plyStripWeapon(entity weapon)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
-	if not hasAccess(self.player) then return self:throw("You do not have access", nil) end
+	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
 
 	this:StripWeapon(weapon:GetClass())
 end
 
 e2function void entity:plyStripWeapons()
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
-	if not hasAccess(self.player) then return self:throw("You do not have access", nil) end
+	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
 
 	this:StripWeapons()
 end
 
 e2function void entity:plyStripAmmo()
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
-	if not hasAccess(self.player) then return self:throw("You do not have access", nil) end
+	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
 
 	this:StripAmmo()
 end
 
 e2function void entity:plySetClip1(ammo)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
-	if not hasAccess(self.player) then return self:throw("You do not have access", nil) end
+	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
 	if not (this:IsWeapon() or this:IsPlayer()) then return end
 
 	local weap = this
@@ -112,7 +139,7 @@ end
 
 e2function void entity:plySetClip2(ammo)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
-	if not hasAccess(self.player) then return self:throw("You do not have access", nil) end
+	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
 	if not (this:IsWeapon() or this:IsPlayer()) then return end
 
 	local weap = this
