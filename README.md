@@ -48,15 +48,15 @@ Player functions are restricted to admins only.
 
 | Function                                             | Return | Description                                                                |
 |------------------------------------------------------|--------|----------------------------------------------------------------------------|
-| `entity:plyGive(WeaponName:string)`                  | void   | Give the player a weapon.                                                  |
-| `entity:plyGiveWeapon(WeaponName:string)`            | void   | Give the player a weapon.                                                  |
+| `entity:plyGive(WeaponClass:string)`                 | void   | Give the player a weapon.                                                  |
+| `entity:plyGiveWeapon(WeaponClass:string)`           | void   | Give the player a weapon.                                                  |
 | `entity:plyGiveAmmo(AmmoType:string, Amount:number)` | void   | Gives ammo to a player.                                                    |
 | `entity:plySetAmmo(AmmoType:string, Amount:number)`  | void   | Sets the amount of of the specified ammo for the player.                   |
-| `entity:plySelectWeapon(WeaponName:string)`          | void   | Sets the player active weapon.                                             |
-| `entity:plyDropWeapon(WeaponName:string)`            | void   | Drops the player's weapon of a specific class.                             |
-| `entity:plyDropWeapon(weapon:entity)`                | void   | Forces the player to drop the specified weapon.                            |
-| `entity:plyStripWeapon(WeaponName:string)`           | void   | Removes the specified weapon class from a certain player.                  |
-| `entity:plyStripWeapon(weapon:entity)`               | void   | Removes the specified weapon from a certain player                         |
+| `entity:plySelectWeapon(WeaponClass:string)`         | void   | Sets the player active weapon.                                             |
+| `entity:plyDropWeapon(WeaponClass:string)`           | void   | Drops the player's weapon of a specific class.                             |
+| `entity:plyDropWeapon(Weapon:entity)`                | void   | Forces the player to drop the specified weapon.                            |
+| `entity:plyStripWeapon(WeaponClass:string)`          | void   | Removes the specified weapon class from a certain player.                  |
+| `entity:plyStripWeapon(Weapon:entity)`               | void   | Removes the specified weapon from a certain player                         |
 | `entity:plyStripWeapons()`                           | void   | Removes all weapons from a certain player                                  |
 | `entity:plyStripAmmo()`                              | void   | Removes all ammo from the player.                                          |
 | `entity:plySetClip1(Amount:number)`                  | void   | Lets you change the number of bullets in the given weapons primary clip.   |
@@ -66,9 +66,9 @@ Player functions are restricted to admins only.
 
 | Function                                             | Return | Description                                                                |
 |------------------------------------------------------|--------|----------------------------------------------------------------------------|
-| `entity:getWeapon(WeaponName:string)`                | entity | Returns the weapon entity whit the class.                                  |
+| `entity:getWeapon(WeaponClass:string)`               | entity | Returns the weapon entity whit the class.                                  |
 | `entity:getWeapons()`                                | array  | Returns a table of the player's weapons.                                   |
-| `entity:hasWeapon(WeaponName:string)`                | number | Returns if the player has the specified weapon.                            |
+| `entity:hasWeapon(WeaponClass:string)`               | number | Returns if the player has the specified weapon.                            |
 
 [WeaponCore Workshop Page]: <https://steamcommunity.com/sharedfiles/filedetails/?id=452197127>
 [Expression 2 Core Collection]: <https://steamcommunity.com/workshop/filedetails/?id=726399057>

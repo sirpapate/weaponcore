@@ -53,51 +53,51 @@ end
 
 --- Give the player a weapon.
 [deprecated = "Use the plyGiveWeapon method instead"]
-e2function void entity:plyGive(string weaponid)
+e2function void entity:plyGive(string weaponClass)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
 
-	this:Give(weaponid)
+	this:Give(weaponClass)
 end
 
 --- Give the player a weapon.
-e2function void entity:plyGiveWeapon(string weaponName)
+e2function void entity:plyGiveWeapon(string weaponClass)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
 
-	this:Give(weaponName)
+	this:Give(weaponClass)
 end
 
 --- Gives ammo to a player.
-e2function void entity:plyGiveAmmo(string ammotype, number count)
+e2function void entity:plyGiveAmmo(string ammoType, number amount)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
 
-	this:GiveAmmo(count, ammotype, false)
+	this:GiveAmmo(amount, ammoType, false)
 end
 
 --- Sets the amount of of the specified ammo for the player.
-e2function void entity:plySetAmmo(string ammotype, number count)
+e2function void entity:plySetAmmo(string ammoType, number amount)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
 
-	this:SetAmmo(count, type)
+	this:SetAmmo(amount, type)
 end
 
 --- Sets the player active weapon.
-e2function void entity:plySelectWeapon(string weapon)
+e2function void entity:plySelectWeapon(string weaponClass)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
 
-	this:SelectWeapon(weapon)
+	this:SelectWeapon(weaponClass)
 end
 
 --- Drops the player's weapon of a specific class.
-e2function void entity:plyDropWeapon(string weapon)
+e2function void entity:plyDropWeapon(string weaponClass)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
 	
-	this:DropNamedWeapon(weapon)
+	this:DropNamedWeapon(weaponClass)
 end
 
 --- Forces the player to drop the specified weapon.
@@ -109,11 +109,11 @@ e2function void entity:plyDropWeapon(entity weapon)
 end
 
 --- Removes the specified weapon class from a certain player.
-e2function void entity:plyStripWeapon(string weapon)
+e2function void entity:plyStripWeapon(string weaponClass)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
 
-	this:StripWeapon(weapon)
+	this:StripWeapon(weaponClass)
 end
 
 --- Removes the specified weapon from a certain player
@@ -141,7 +141,7 @@ e2function void entity:plyStripAmmo()
 end
 
 --- Lets you change the number of bullets in the given weapons primary clip.
-e2function void entity:plySetClip1(ammo)
+e2function void entity:plySetClip1(number amount)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
 	if not (this:IsWeapon() or this:IsPlayer()) then return end
@@ -151,11 +151,11 @@ e2function void entity:plySetClip1(ammo)
 		weap = this:GetActiveWeapon()
 	end
 
-	weap:SetClip1(ammo)
+	weap:SetClip1(amount)
 end
 
 --- Lets you change the number of bullets in the given weapons secondary clip.
-e2function void entity:plySetClip2(ammo)
+e2function void entity:plySetClip2(number amount)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
 	if not (this:IsWeapon() or this:IsPlayer()) then return end
@@ -165,14 +165,14 @@ e2function void entity:plySetClip2(ammo)
 		weap = this:GetActiveWeapon()
 	end
 
-	weap:SetClip2(ammo)
+	weap:SetClip2(amount)
 end
 
 --- Returns the weapon entity whit the class.
-e2function entity entity:getWeapon(string class)
+e2function entity entity:getWeapon(string weaponClass)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 
-	return getWeaponByClass(this, class)
+	return getWeaponByClass(this, weaponClass)
 end
 
 --- Returns a table of the player's weapons.
@@ -183,10 +183,10 @@ e2function array entity:getWeapons()
 end
 
 --- Returns if the player has the specified weapon.
-e2function number entity:hasWeapon(string weapon)
+e2function number entity:hasWeapon(string weaponClass)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 
-	return this:HasWeapon(weapon)
+	return this:HasWeapon(weaponClass)
 end
 
 ------------------------------------------------------------------------------
