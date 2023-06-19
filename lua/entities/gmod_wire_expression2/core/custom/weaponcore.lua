@@ -173,6 +173,7 @@ hook.Add("PlayerSwitchWeapon","Expresion2PlayerSwitchWeapon", function(ply, oldW
 	E2Lib.triggerEvent("weaponSwitch", {ply, oldWeapon, newWeapon})
 end)
  
+[deprecated = "Use the weaponSwitch event instead"]
 e2function void runOnWeaponSwitch(activate)
 	if activate ~= 0 then
 		registered_e2s_switch[self.entity] = true
@@ -181,18 +182,22 @@ e2function void runOnWeaponSwitch(activate)
 	end
 end
  
+[nodiscard, deprecated = "Use the weaponSwitch event instead"]
 e2function number weaponSwitchClk()
 	return weaponswitchclk
 end
 
+[nodiscard, deprecated = "Use the weaponSwitch event instead"]
 e2function entity lastWeaponSwitchPlayer()
 	return weaponPly
 end
 
+[nodiscard, deprecated = "Use the weaponSwitch event instead"]
 e2function entity lastWeaponSwitchOld()
 	return weaponOld
 end
 
+[nodiscard, deprecated = "Use the weaponSwitch event instead"]
 e2function entity lastWeaponSwitchNext()
 	return weaponNext
 end
@@ -250,6 +255,7 @@ hook.Add('PlayerDroppedWeapon', 'Expresion2PlayerDroppedWeapon', function(ply, w
 	E2Lib.triggerEvent("weaponDrop", {ply, weapon})
 end)
 
+[deprecated = "Use the weaponEquip event instead"]
 e2function void runOnWeaponEquip(activate)
 	if activate ~= 0 then
 		registered_e2s_equip[self.entity] = true
@@ -258,11 +264,12 @@ e2function void runOnWeaponEquip(activate)
 	end
 end
  
+[nodiscard, deprecated = "Use the weaponEquip event instead"]
 e2function number weaponEquipClk()
 	return weaponequipclk
 end
 
-
+[nodiscard, deprecated = "Use the weaponEquip event instead"]
 e2function entity lastWeaponEquip()
 	return weaponEquiped
 end
