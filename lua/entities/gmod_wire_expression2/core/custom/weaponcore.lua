@@ -125,14 +125,12 @@ end
 
 e2function entity entity:getWeapon(string class)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
-	if not hasAccess(self.player) then return self:throw("You do not have access", nil) end
 
 	return getWeaponByClass(this, class)
 end
 
 e2function array entity:getWeapons()
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
-	if not hasAccess(self.player) then return self:throw("You do not have access", nil) end
 
 	return this:GetWeapons()
 end
@@ -140,7 +138,6 @@ end
 
 e2function number entity:hasWeapon(string weapon)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
-	if not hasAccess(self.player) then return self:throw("You do not have access", nil) end
 
 	return this:HasWeapon(weapon)
 end
