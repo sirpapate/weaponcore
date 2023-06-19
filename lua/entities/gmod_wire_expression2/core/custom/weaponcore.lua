@@ -51,6 +51,7 @@ end
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+--- Give the player a weapon.
 e2function void entity:plyGive(string weaponid)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
@@ -58,6 +59,7 @@ e2function void entity:plyGive(string weaponid)
 	this:Give(weaponid)
 end
 
+--- Gives ammo to a player.
 e2function void entity:plyGiveAmmo(string ammotype, number count)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
@@ -65,6 +67,7 @@ e2function void entity:plyGiveAmmo(string ammotype, number count)
 	this:GiveAmmo(count, ammotype, false)
 end
 
+--- Sets the amount of of the specified ammo for the player.
 e2function void entity:plySetAmmo(string ammotype, number count)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
@@ -72,7 +75,7 @@ e2function void entity:plySetAmmo(string ammotype, number count)
 	this:SetAmmo(count, type)
 end
 
------
+--- Sets the player active weapon.
 e2function void entity:plySelectWeapon(string weapon)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
@@ -80,7 +83,7 @@ e2function void entity:plySelectWeapon(string weapon)
 	this:SelectWeapon(weapon)
 end
 
------
+--- Drops the player's weapon of a specific class.
 e2function void entity:plyDropWeapon(string weapon)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
@@ -88,6 +91,7 @@ e2function void entity:plyDropWeapon(string weapon)
 	this:DropNamedWeapon(weapon)
 end
 
+--- Forces the player to drop the specified weapon.
 e2function void entity:plyDropWeapon(entity weapon)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
@@ -95,7 +99,7 @@ e2function void entity:plyDropWeapon(entity weapon)
 	this:DropWeapon(weapon)
 end
 
------
+--- Removes the specified weapon class from a certain player.
 e2function void entity:plyStripWeapon(string weapon)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
@@ -103,6 +107,7 @@ e2function void entity:plyStripWeapon(string weapon)
 	this:StripWeapon(weapon)
 end
 
+--- Removes the specified weapon from a certain player
 e2function void entity:plyStripWeapon(entity weapon)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
@@ -110,6 +115,7 @@ e2function void entity:plyStripWeapon(entity weapon)
 	this:StripWeapon(weapon:GetClass())
 end
 
+--- Removes all weapons from a certain player
 e2function void entity:plyStripWeapons()
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
@@ -117,6 +123,7 @@ e2function void entity:plyStripWeapons()
 	this:StripWeapons()
 end
 
+--- Removes all ammo from the player.
 e2function void entity:plyStripAmmo()
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
@@ -124,6 +131,7 @@ e2function void entity:plyStripAmmo()
 	this:StripAmmo()
 end
 
+--- Lets you change the number of bullets in the given weapons primary clip.
 e2function void entity:plySetClip1(ammo)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
@@ -137,6 +145,7 @@ e2function void entity:plySetClip1(ammo)
 	weap:SetClip1(ammo)
 end
 
+--- Lets you change the number of bullets in the given weapons secondary clip.
 e2function void entity:plySetClip2(ammo)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 	if not hasAccess(self.player, this) then return self:throw("You do not have access", nil) end
@@ -150,19 +159,21 @@ e2function void entity:plySetClip2(ammo)
 	weap:SetClip2(ammo)
 end
 
+--- Returns the weapon entity whit the class.
 e2function entity entity:getWeapon(string class)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 
 	return getWeaponByClass(this, class)
 end
 
+--- Returns a table of the player's weapons.
 e2function array entity:getWeapons()
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 
 	return this:GetWeapons()
 end
 
-
+--- Returns if the player has the specified weapon.
 e2function number entity:hasWeapon(string weapon)
 	if not ValidPly(this) then return self:throw("Invalid player", nil) end
 
@@ -200,6 +211,7 @@ hook.Add("PlayerSwitchWeapon","Expresion2PlayerSwitchWeapon", function(ply, oldW
 	E2Lib.triggerEvent("weaponSwitch", {ply, oldWeapon, newWeapon})
 end)
  
+--- If set to 1, the chip will be executed when the player switches weapons.
 [deprecated = "Use the weaponSwitch event instead"]
 e2function void runOnWeaponSwitch(activate)
 	if activate ~= 0 then
@@ -208,22 +220,26 @@ e2function void runOnWeaponSwitch(activate)
 		registered_e2s_switch[self.entity] = nil
 	end
 end
- 
+
+--- Returns 1 if the player has switched weapons.
 [nodiscard, deprecated = "Use the weaponSwitch event instead"]
 e2function number weaponSwitchClk()
 	return weaponswitchclk
 end
 
+--- Returns the player that switched weapons.
 [nodiscard, deprecated = "Use the weaponSwitch event instead"]
 e2function entity lastWeaponSwitchPlayer()
 	return weaponPly
 end
 
+--- Returns the weapon the player switched from.
 [nodiscard, deprecated = "Use the weaponSwitch event instead"]
 e2function entity lastWeaponSwitchOld()
 	return weaponOld
 end
 
+--- Returns the weapon the player switched to.
 [nodiscard, deprecated = "Use the weaponSwitch event instead"]
 e2function entity lastWeaponSwitchNext()
 	return weaponNext
@@ -282,6 +298,7 @@ hook.Add('PlayerDroppedWeapon', 'Expresion2PlayerDroppedWeapon', function(ply, w
 	E2Lib.triggerEvent("weaponDrop", {ply, weapon})
 end)
 
+--- Is set to 1, E2 will run when a player equips a weapon.
 [deprecated = "Use the weaponEquip event instead"]
 e2function void runOnWeaponEquip(activate)
 	if activate ~= 0 then
@@ -290,12 +307,14 @@ e2function void runOnWeaponEquip(activate)
 		registered_e2s_equip[self.entity] = nil
 	end
 end
- 
+
+--- Returns 1 if the E2 is run because of a weapon equip.
 [nodiscard, deprecated = "Use the weaponEquip event instead"]
 e2function number weaponEquipClk()
 	return weaponequipclk
 end
 
+--- Returns the last equipped weapon.
 [nodiscard, deprecated = "Use the weaponEquip event instead"]
 e2function entity lastWeaponEquip()
 	return weaponEquiped
