@@ -1,10 +1,16 @@
 {
+	"id"		:	452197127,
 	"title" 	:	"[E2] WeaponCore",
 	"type"  	:	"tool",
 	"tags"  	:	[ "build" ],
 	"ignore"	:	[
 	        	"*.cmd",
 	        	"*.gma",
-	        	"addonid.txt"
+	        	"addonid.txt",
+				".git*",
+				"*.md",
+				".*",
+				"LICENSE",
+				"images/*"
 	]
 }
